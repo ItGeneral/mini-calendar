@@ -1,0 +1,20 @@
+CREATE TABLE `calendar_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `solar_year` int(4) NOT NULL COMMENT '阳历年',
+  `solar_month` int(4) NOT NULL COMMENT '阳历月',
+  `solar_day` int(4) NOT NULL COMMENT '阳历日',
+  `lunar_year` int(4) NOT NULL COMMENT '阴历年 如',
+  `lunar_month` varchar(16) NOT NULL COMMENT '阴历月 如：一',
+  `lunar_day` varchar(16) NOT NULL COMMENT '阴历日 如：初一',
+  `gz_year` varchar(16) NOT NULL COMMENT '干支年,如庚子',
+  `gz_month` varchar(16) NOT NULL COMMENT '干支月,如戊寅',
+  `gz_day` varchar(16) NOT NULL COMMENT '干支日,如壬寅',
+  `animal` varchar(16) NOT NULL COMMENT '生肖',
+  `avoid` varchar(512) NOT NULL DEFAULT '' COMMENT '忌事',
+  `suit` varchar(512) NOT NULL DEFAULT '' COMMENT '宜事',
+  `week_day` varchar(16) NOT NULL COMMENT '星期',
+  `remark` varchar(128) NOT NULL COMMENT '节日名称',
+  `status` int(1) unsigned zerofill NOT NULL COMMENT '0默认，1：表示休息，2：调休上班 ',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `time_index` (`solar_year`,`solar_month`,`solar_day`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
