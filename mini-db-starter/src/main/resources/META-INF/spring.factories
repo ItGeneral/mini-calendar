@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+
+org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\
+com.mini.db.config.RecImportFilter
