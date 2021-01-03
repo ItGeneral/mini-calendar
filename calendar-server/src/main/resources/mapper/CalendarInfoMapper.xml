@@ -41,5 +41,10 @@
         order by id asc
     </select>
 
+    <select id="countDayNum" resultType="com.mini.calendar.dao.model.CalendarCountDayDTO">
+        select solar_month as month, count(solar_day) as dayNum
+        from calendar_info
+        where solar_year = #{solarYear} GROUP BY solar_month
+    </select>
 
 </mapper>

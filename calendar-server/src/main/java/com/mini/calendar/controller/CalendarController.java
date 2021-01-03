@@ -3,6 +3,7 @@ package com.mini.calendar.controller;
 import com.alibaba.fastjson.JSON;
 import com.mini.calendar.controller.request.CalendarQueryRequest;
 import com.mini.calendar.controller.response.BaseResponse;
+import com.mini.calendar.controller.vo.CalendarCountDayVO;
 import com.mini.calendar.controller.vo.CalendarInfoVO;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.service.CalendarService;
@@ -107,6 +108,11 @@ public class CalendarController {
         result.add(yearList);
         result.add(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12));
         return BaseResponse.success(result);
+    }
+
+    @PostMapping(value = "/count/day")
+    public BaseResponse<CalendarCountDayVO> countDays(@RequestBody CalendarQueryRequest request){
+        return BaseResponse.success(calendarService.countMonthDay(request.getYear()));
     }
 
 

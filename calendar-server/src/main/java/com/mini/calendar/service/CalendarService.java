@@ -1,6 +1,8 @@
 package com.mini.calendar.service;
 
+import com.mini.calendar.controller.vo.CalendarCountDayVO;
 import com.mini.calendar.dao.mapper.CalendarInfoMapper;
+import com.mini.calendar.dao.model.CalendarCountDayDTO;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.dao.model.CalendarInfoQueryDTO;
 import com.sun.org.apache.regexp.internal.RE;
@@ -18,7 +20,7 @@ import java.util.List;
 public class CalendarService {
 
     @Autowired
-    private CalendarInfoMapper calendarInfoMapper;
+    protected CalendarInfoMapper calendarInfoMapper;
 
     public List<CalendarInfo> queryCalendarListBySolarYearAndMonth(Integer year, Integer month){
         List<CalendarInfoQueryDTO> queryDTOList = new ArrayList<>();
@@ -39,6 +41,21 @@ public class CalendarService {
 
     public List<Integer> queryYearList(){
         return calendarInfoMapper.queryYearList();
+    }
+
+    public CalendarCountDayVO countMonthDay(Integer year){
+        CalendarCountDayVO countDayVO = new CalendarCountDayVO();
+        countDayVO.setYear(year);
+        List<CalendarCountDayVO.MonthCountDay> countDayList = new ArrayList<>();
+        List<CalendarCountDayDTO> countDayDTOList = calendarInfoMapper.countDayNum(year);
+        for (CalendarCountDayDTO dayDTO : countDayDTOList) {
+            CalendarCountDayVO.MonthCountDay countDay = new CalendarCountDayVO.MonthCountDay();
+            countDay.setMonth(dayDTO.getMonth());
+            countDay.setDayNum(dayDTO.getDayNum());
+            countDayList.add(countDay);
+        }
+        countDayVO.setMonthDayNumList(countDayList);
+        return countDayVO;
     }
 
 }
