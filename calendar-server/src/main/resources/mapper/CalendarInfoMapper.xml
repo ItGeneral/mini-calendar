@@ -47,4 +47,18 @@
         where solar_year = #{solarYear} GROUP BY solar_month
     </select>
 
+    <select id="countMonthDayNum" resultType="com.mini.calendar.dao.model.CalendarCountDayDTO">
+        select solar_month as month, count(solar_day) as dayNum
+        from calendar_info
+        where solar_year = #{solarYear} and solar_month = #{solarMonth}
+    </select>
+
+
+    <select id="queryDayDetail" resultType="com.mini.calendar.dao.model.CalendarInfo">
+        select id, solar_year,solar_month,solar_day,lunar_year,lunar_month,lunar_day,gz_year,gz_month,
+        gz_day,animal,avoid,suit,week_day,remark, status
+        from calendar_info
+        where solar_year = #{solarYear} and solar_month = #{solarMonth} and solar_day = #{solarDay}
+    </select>
+
 </mapper>

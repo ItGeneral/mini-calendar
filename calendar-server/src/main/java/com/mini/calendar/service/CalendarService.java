@@ -1,11 +1,13 @@
 package com.mini.calendar.service;
 
 import com.mini.calendar.controller.vo.CalendarCountDayVO;
+import com.mini.calendar.controller.vo.CalendarInfoVO;
 import com.mini.calendar.dao.mapper.CalendarInfoMapper;
 import com.mini.calendar.dao.model.CalendarCountDayDTO;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.dao.model.CalendarInfoQueryDTO;
 import com.sun.org.apache.regexp.internal.RE;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +58,17 @@ public class CalendarService {
         }
         countDayVO.setMonthDayNumList(countDayList);
         return countDayVO;
+    }
+
+    public CalendarCountDayDTO countMonthDayNum(Integer year, Integer month){
+        return calendarInfoMapper.countMonthDayNum(year, month);
+    }
+
+    public CalendarInfoVO queryDayDetail(Integer solarYear, Integer solarMonth, Integer solarDay){
+        CalendarInfoVO vo = new CalendarInfoVO();
+        CalendarInfo calendarInfo = calendarInfoMapper.queryDayDetail(solarYear, solarMonth, solarDay);
+        BeanUtils.copyProperties(calendarInfo, vo);
+        return vo;
     }
 
 }

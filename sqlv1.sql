@@ -18,3 +18,30 @@ CREATE TABLE `calendar_info` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `time_index` (`solar_year`,`solar_month`,`solar_day`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+create table calendar_user(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `open_id` varchar(128) NOT NULL COMMENT '微信用户唯一标识',
+    `nick_name` varchar(128) NOT NULL DEFAULT '' COMMENT '昵称',
+    `gender` int(2) not null DEFAULT 0 COMMENT '性别 1:男 2:女',
+    `country` varchar(256) NOT NULL DEFAULT '' COMMENT '所在国家',
+    `province` varchar(256) NOT NULL DEFAULT '' COMMENT '所在省',
+    `city` varchar(256) NOT NULL DEFAULT '' COMMENT '所在市',
+    `avatarUrl` varchar(256) NOT NULL DEFAULT '' COMMENT '微信头像地址',
+    `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+
+create table calendar_diary(
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `calendar_info_id` int(11) NOT NULL COMMENT '日历表id',
+ `user_id` int(11) NOT NULL COMMENT '用户表id',
+ `solar_date` varchar(32) NOT NULL COMMENT '日期:2021-01-01',
+ `title` varchar(64) NOT NULL DEFAULT '' COMMENT '标题',
+ `content` MEDIUMTEXT COMMENT '内容',
+ `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+ `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `user_calendar_info_id` (`user_id`,`calendar_info_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;

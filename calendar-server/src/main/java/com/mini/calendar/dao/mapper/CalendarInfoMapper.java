@@ -1,5 +1,6 @@
 package com.mini.calendar.dao.mapper;
 
+import com.mini.calendar.controller.vo.CalendarInfoVO;
 import com.mini.calendar.dao.model.CalendarCountDayDTO;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.dao.model.CalendarInfoQueryDTO;
@@ -28,4 +29,8 @@ public interface CalendarInfoMapper {
     List<Integer> queryYearList();
 
     List<CalendarCountDayDTO> countDayNum(@Param("solarYear") Integer solarYear);
+
+    CalendarCountDayDTO countMonthDayNum(@Param("solarYear") Integer solarYear, @Param("solarMonth") Integer solarMonth);
+
+    CalendarInfo queryDayDetail(@Param("solarYear") Integer solarYear, @Param("solarMonth") Integer solarMonth, @Param("solarDay") Integer solarDay);
 }

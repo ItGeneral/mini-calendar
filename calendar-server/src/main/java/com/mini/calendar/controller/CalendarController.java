@@ -1,10 +1,12 @@
 package com.mini.calendar.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.mini.calendar.controller.request.CalendarDetailQueryRequest;
 import com.mini.calendar.controller.request.CalendarQueryRequest;
 import com.mini.calendar.controller.response.BaseResponse;
 import com.mini.calendar.controller.vo.CalendarCountDayVO;
 import com.mini.calendar.controller.vo.CalendarInfoVO;
+import com.mini.calendar.dao.model.CalendarCountDayDTO;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.service.CalendarService;
 import org.springframework.beans.BeanUtils;
@@ -101,6 +103,10 @@ public class CalendarController {
         return BaseResponse.success(result);
     }
 
+    /**
+     * 获取年/月
+     * @return
+     */
     @PostMapping(value = "/year/list")
     public BaseResponse<List<List<Integer>>> getYearList(){
         List<List<Integer>> result = new ArrayList<>();
@@ -110,10 +116,41 @@ public class CalendarController {
         return BaseResponse.success(result);
     }
 
+    /**
+     * 统计每月有多少天
+     * @param request
+     * @return
+     */
     @PostMapping(value = "/count/day")
     public BaseResponse<CalendarCountDayVO> countDays(@RequestBody CalendarQueryRequest request){
         return BaseResponse.success(calendarService.countMonthDay(request.getYear()));
     }
 
+    /**
+     * 查询某日的信息
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "/day/detail")
+    public BaseResponse<CalendarInfoVO> detail(@RequestBody CalendarDetailQueryRequest request){
+        return BaseResponse.success(calendarService.queryDayDetail(request.getSolarYear(), request.getSolarMonth(), request.getSolarDay()));
+    }
+
+    @PostMapping(value = "/init/day-picker")
+    public BaseResponse<List<List<Integer>>> initDay(@RequestBody CalendarDetailQueryRequest request){
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> yearList = calendarService.queryYearList();
+        result.add(yearList);
+        result.add(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11,12));
+        //获取某月的天数
+        CalendarCountDayDTO calendarCountDayDTO = calendarService.countMonthDayNum(request.getSolarYear(), request.getSolarMonth());
+        Integer dayNum = calendarCountDayDTO.getDayNum();
+        List<Integer> dayList = new ArrayList<>();
+        for (int i = 1; i <= dayNum; i++) {
+            dayList.add(i);
+        }
+        result.add(dayList);
+        return BaseResponse.success(result);
+    }
 
 }
