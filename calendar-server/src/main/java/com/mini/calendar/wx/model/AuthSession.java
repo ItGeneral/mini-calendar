@@ -9,7 +9,7 @@ public class AuthSession {
     /**
      * 用户唯一标识
      */
-    private String openid;
+    private String openId;
     /**
      * 会话密钥
      */
@@ -19,12 +19,12 @@ public class AuthSession {
      */
     private String unionId;
 
-    public String getOpenid() {
-        return openid;
+    public String getOpenId() {
+        return openId;
     }
 
-    public void setOpenid(String openid) {
-        this.openid = openid;
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getSessionKey() {

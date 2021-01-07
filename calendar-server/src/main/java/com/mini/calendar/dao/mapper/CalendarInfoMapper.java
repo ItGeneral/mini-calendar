@@ -1,6 +1,5 @@
 package com.mini.calendar.dao.mapper;
 
-import com.mini.calendar.controller.vo.CalendarInfoVO;
 import com.mini.calendar.dao.model.CalendarCountDayDTO;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.dao.model.CalendarInfoQueryDTO;

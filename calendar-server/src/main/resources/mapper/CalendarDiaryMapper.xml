@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.calendar.dao.mapper.CalendarDairyMapper">
+
+    <insert id="saveDairy" parameterType="com.mini.calendar.dao.model.CalendarDiary">
+        insert into calendar_diary (open_id, user_id,calendar_info_id,solar_date,title,content) values
+        (#{dairy.openId}, #{dairy.userId}, #{dairy.calendarInfoId}, #{dairy.solarDate}, #{dairy.title}, #{dairy.content})
+    </insert>
+
+    <update id="updateDairy" parameterType="com.mini.calendar.dao.model.CalendarDiary">
+        update calendar_diary
+        <set>
+            <if test="dairy.title != null">
+                title = #{dairy.title},
+            </if>
+            <if test="dairy.content != null">
+                content = #{dairy.content},
+            </if>
+            <if test="dairy.content != null">
+                update_time = #{dairy.updateTime}
+            </if>
+        </set>
+        where id = #{dairy.id}
+    </update>
+
+    <select id="queryBySolarDate" resultType="com.mini.calendar.dao.model.CalendarDiary">
+        select id, open_id, user_id,calendar_info_id,solar_date,title,content,update_time
+        from calendar_diary
+        where open_id = #{openId}
+        AND solar_date = #{solarDate}
+    </select>
+
+    <select id="queryByOpenIdAndCalendarId" resultType="com.mini.calendar.dao.model.CalendarDiary">
+        select id, open_id, user_id,calendar_info_id,solar_date,title,content,update_time
+        from calendar_diary
+        where open_id = #{openId}
+        and calendar_info_id = #{calendarInfoId}
+    </select>
+
+</mapper>

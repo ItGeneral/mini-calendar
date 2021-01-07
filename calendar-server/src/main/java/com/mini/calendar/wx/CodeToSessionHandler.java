@@ -25,7 +25,7 @@ public class CodeToSessionHandler {
         String result = HttpUtil.get(url);
         JSONObject jsonObject = JSON.parseObject(result);
         AuthSession authSession = new AuthSession();
-        authSession.setOpenid(jsonObject.getString("openid"));
+        authSession.setOpenId(jsonObject.getString("openid"));
         authSession.setSessionKey(jsonObject.getString("session_key"));
         authSession.setUnionId(jsonObject.getString("unionid"));
         return authSession;
