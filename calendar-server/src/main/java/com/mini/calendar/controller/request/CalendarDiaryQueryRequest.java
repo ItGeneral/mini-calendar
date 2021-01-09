@@ -6,19 +6,9 @@ package com.mini.calendar.controller.request;
  */
 public class CalendarDiaryQueryRequest {
 
-    private Integer id;
-
     private String openId;
 
     private String solarDate;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getOpenId() {
         return openId;

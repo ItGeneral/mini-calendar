@@ -37,4 +37,12 @@
         and calendar_info_id = #{calendarInfoId}
     </select>
 
+    <select id="queryDiaryList" resultType="com.mini.calendar.dao.model.CalendarDiary">
+        select id, open_id, calendar_info_id, solar_date,title,content,update_time
+        from calendar_diary
+        where open_id = #{openId}
+        order by update_time desc
+        limit #{offset}, #{limit}
+    </select>
+
 </mapper>

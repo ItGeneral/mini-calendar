@@ -1,5 +1,6 @@
 package com.mini.calendar.service;
 
+import com.mini.calendar.controller.request.CalendarDiaryListRequest;
 import com.mini.calendar.controller.request.CalendarDiaryQueryRequest;
 import com.mini.calendar.controller.request.CalendarDiaryRequest;
 import com.mini.calendar.controller.vo.CalendarDiaryVO;
@@ -13,7 +14,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author songjiuhua
@@ -57,9 +60,25 @@ public class CalendarDiaryService {
 
     public CalendarDiaryVO queryDiary(CalendarDiaryQueryRequest request){
         CalendarDiary calendarDiary = calendarDairyMapper.queryBySolarDate(request.getSolarDate(), request.getOpenId());
+        if (calendarDiary == null){
+            return new CalendarDiaryVO();
+        }
         CalendarDiaryVO diaryVO = new CalendarDiaryVO();
         BeanUtils.copyProperties(calendarDiary, diaryVO);
         return diaryVO;
+    }
+
+    public List<CalendarDiaryVO> queryDiaryList(CalendarDiaryListRequest request){
+        Integer offset = request.getPageNo() * request.getPageSize();
+        Integer limit = request.getPageSize();
+        List<CalendarDiary> calendarDiaryList = calendarDairyMapper.queryDiaryList(request.getOpenId(), offset, limit);
+        List<CalendarDiaryVO> voList = new ArrayList<>();
+        for (CalendarDiary calendarDiary : calendarDiaryList) {
+            CalendarDiaryVO vo = new CalendarDiaryVO();
+            BeanUtils.copyProperties(calendarDiary, vo);
+            voList.add(vo);
+        }
+        return voList;
     }
 
 }

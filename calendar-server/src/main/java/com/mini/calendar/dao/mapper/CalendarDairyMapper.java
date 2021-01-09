@@ -6,6 +6,8 @@ import com.mini.db.annotation.RecDB;
 import com.mini.db.annotation.RecDBWritable;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author songjiuhua
  * Created by 2021/1/6 15:49
@@ -21,5 +23,7 @@ public interface CalendarDairyMapper {
     CalendarDiary queryBySolarDate(@Param("solarDate") String solarDate, @Param("openId") String openId);
 
     CalendarDiary queryByOpenIdAndCalendarId(@Param("openId") String openId, @Param("calendarInfoId") Integer calendarInfoId);
+
+    List<CalendarDiary> queryDiaryList(@Param("openId") String openId, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
 }
