@@ -46,3 +46,25 @@ CREATE TABLE `calendar_diary` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `openid_calendar_info_id` (`open_id`,`calendar_info_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `domain_space` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL COMMENT '用户表id',
+  `space_name` varchar(64) NOT NULL COMMENT '领域/空间名称',
+  `avatar_url` varchar(256) NOT NULL COMMENT '领域/空间头像',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id_name_key` (`user_id`,`space_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+create table space_user_relate(
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) NOT NULL COMMENT '用户表id',
+`domain_space_id` int(11) NOT NULL COMMENT '空间表id',
+`type` TINYINT not null DEFAULT 0 COMMENT '0：表示自己创建的，1:表示邀请加入的',
+`create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`),
+ UNIQUE KEY `user_space_id`(`user_id`, `domain_space_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

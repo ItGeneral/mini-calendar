@@ -7,7 +7,7 @@ rec:
   db:
     calendar:
       master:
-        jdbc-url: jdbc:mysql://localhost:3307/calendar?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        jdbc-url: jdbc:mysql://xxx:3307/calendar?useUnicode=true&characterEncoding=utf-8&useSSL=false
         username: calendar
         password: calendar
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -18,3 +18,10 @@ rec:
 wx:
   appid: wx94e2e35a5dc3361b
   app-secret: f20f47cc352e983fbac63d9ccbdd4ee5
+
+fdfs:
+  so-timeout: 6000
+  connect-timeout: 6000
+  network-timeout: 3000
+  tracker-list: xxx:22122
+  image-url: http://xxx:8888/

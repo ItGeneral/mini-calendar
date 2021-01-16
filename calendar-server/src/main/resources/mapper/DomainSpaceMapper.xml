@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.calendar.dao.mapper.DomainSpaceMapper">
+
+    <insert id="saveDomainSpace" parameterType="com.mini.calendar.dao.model.DomainSpace" useGeneratedKeys="true" keyProperty="id">
+        insert into domain_space (user_id,space_name,avatar_url) values
+        (#{space.userId}, #{space.spaceName}, #{space.avatarUrl})
+    </insert>
+
+    <select id="queryByIdList" resultType="com.mini.calendar.dao.model.DomainSpaceUserDTO">
+        select space.id as spaceId, user_id, space_name, space.avatar_url, cu.nick_name
+        from domain_space space
+        left join calendar_user cu on cu.id = space.user_id
+        where space.id in
+        <foreach collection="idList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by space.create_time desc
+    </select>
+
+    <select id="queryByUserId" resultType="com.mini.calendar.dao.model.DomainSpace">
+        select id, user_id, space_name, avatar_url
+        from domain_space
+        where user_id = #{userId}
+    </select>
+
+</mapper>

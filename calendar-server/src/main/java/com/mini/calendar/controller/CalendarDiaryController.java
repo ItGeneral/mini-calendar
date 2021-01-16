@@ -38,10 +38,7 @@ public class CalendarDiaryController {
 
     @PostMapping(value = "/detail")
     public BaseResponse<CalendarDiaryVO> getDiary(@RequestBody CalendarDiaryQueryRequest request){
-        System.out.println(request.getOpenId());
-        System.out.println(request.getSolarDate());
         CalendarDiaryVO diaryVO = calendarDiaryService.queryDiary(request);
-        System.out.println(JSON.toJSONString(diaryVO));
         return BaseResponse.success(diaryVO);
     }
 

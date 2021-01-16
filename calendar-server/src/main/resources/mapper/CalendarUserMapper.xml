@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mini.calendar.dao.mapper.CalendarUserMapper">
 
-    <insert id="saveUser" parameterType="com.mini.calendar.dao.model.CalendarUser">
+    <insert id="saveUser" parameterType="com.mini.calendar.dao.model.CalendarUser" useGeneratedKeys="true" keyProperty="id">
         insert into calendar_user (open_id,nick_name,gender,country,province,city,avatar_url) values
         (#{user.openId}, #{user.nickName}, #{user.gender}, #{user.country}, #{user.province}, #{user.city}, #{user.avatarUrl})
     </insert>

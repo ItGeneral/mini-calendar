@@ -31,6 +31,9 @@ public class SessionService {
             CalendarUser calendarUser = new CalendarUser();
             calendarUser.setOpenId(session.getOpenId());
             userMapper.saveUser(calendarUser);
+            session.setUserId(calendarUser.getId());
+        }else {
+            session.setUserId(checkUser.getId());
         }
         return session;
     }

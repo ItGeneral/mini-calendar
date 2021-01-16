@@ -6,6 +6,11 @@ package com.mini.calendar.wx.model;
  * Created by 2020/12/26 15:21
  */
 public class AuthSession {
+
+    /**
+     * 用户id
+     */
+    private Integer userId;
     /**
      * 用户唯一标识
      */
@@ -18,6 +23,14 @@ public class AuthSession {
      * 用户在开放平台的唯一标识符
      */
     private String unionId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getOpenId() {
         return openId;

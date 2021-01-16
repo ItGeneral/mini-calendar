@@ -22,7 +22,7 @@ public class SessionController {
     private SessionService sessionService;
 
     @PostMapping(value = "/key")
-    public BaseResponse loadSession(@RequestBody SessionRequest sessionRequest){
+    public BaseResponse<AuthSession> loadSession(@RequestBody SessionRequest sessionRequest){
         AuthSession session = sessionService.getSession(sessionRequest.getCode());
         return BaseResponse.success(session);
     }

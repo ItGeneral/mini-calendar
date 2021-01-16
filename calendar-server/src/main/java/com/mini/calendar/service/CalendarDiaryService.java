@@ -10,6 +10,7 @@ import com.mini.calendar.dao.mapper.CalendarUserMapper;
 import com.mini.calendar.dao.model.CalendarDiary;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.dao.model.CalendarUser;
+import com.mini.calendar.util.DateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,6 +76,8 @@ public class CalendarDiaryService {
         List<CalendarDiaryVO> voList = new ArrayList<>();
         for (CalendarDiary calendarDiary : calendarDiaryList) {
             CalendarDiaryVO vo = new CalendarDiaryVO();
+            Date updateTime = calendarDiary.getUpdateTime();
+            vo.setUpdateTimeStr(DateUtil.formatDate(updateTime, DateUtil.TIMESTAMP_CHILD_PATTERN));
             BeanUtils.copyProperties(calendarDiary, vo);
             voList.add(vo);
         }
