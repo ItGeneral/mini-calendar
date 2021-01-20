@@ -7,9 +7,11 @@ import com.mini.calendar.controller.vo.CalendarDiaryVO;
 import com.mini.calendar.dao.mapper.CalendarDairyMapper;
 import com.mini.calendar.dao.mapper.CalendarInfoMapper;
 import com.mini.calendar.dao.mapper.CalendarUserMapper;
+import com.mini.calendar.dao.mapper.SpaceDiaryRelateMapper;
 import com.mini.calendar.dao.model.CalendarDiary;
 import com.mini.calendar.dao.model.CalendarInfo;
 import com.mini.calendar.dao.model.CalendarUser;
+import com.mini.calendar.dao.model.SpaceDiaryRelate;
 import com.mini.calendar.util.DateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class CalendarDiaryService {
     private CalendarUserMapper calendarUserMapper;
     @Autowired
     private CalendarInfoMapper calendarInfoMapper;
+    @Autowired
+    private SpaceDiaryRelateMapper diaryRelateMapper;
 
     public CalendarDiaryVO saveDiary(CalendarDiaryRequest request){
         String openId = request.getOpenId();
@@ -56,6 +60,12 @@ public class CalendarDiaryService {
         }
         CalendarDiaryVO diaryVO = new CalendarDiaryVO();
         BeanUtils.copyProperties(calendarDiary, diaryVO);
+
+        SpaceDiaryRelate diaryRelate = new SpaceDiaryRelate();
+        diaryRelate.setUserId(request.getUserId());
+        diaryRelate.setDomainSpaceId(request.getSpaceId());
+        diaryRelate.setDiaryId(calendarDiary.getId());
+        diaryRelateMapper.saveSpaceDiaryRelate(diaryRelate);
         return diaryVO;
     }
 

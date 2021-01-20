@@ -68,3 +68,52 @@ create table space_user_relate(
  PRIMARY KEY (`id`),
  UNIQUE KEY `user_space_id`(`user_id`, `domain_space_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+create table space_diary_relate(
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`user_id` int(11) NOT NULL COMMENT '用户表id',
+`domain_space_id` int(11) NOT NULL COMMENT '空间表id',
+`diary_id` int(11) NOT NULL COMMENT '主题日历表id',
+`deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除 0未删除 1已删除',
+`create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY (`id`),
+KEY `space_user_key` (`domain_space_id`, `user_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '空间、主题和用户关联表';
+
+create table space_subject(
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`space_id` int(11) NOT NULL COMMENT '空间id',
+`user_id` int(11) NOT NULL COMMENT '用户表id',
+`title` varchar(64) DEFAULT '' COMMENT '标题',
+`content` mediumtext NOT NULL COMMENT '内容',
+`create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`),
+ KEY space_user_key(`space_id`, `user_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 comment '空间主题表';
+
+create table subject_comment(
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`space_id` int(11) NOT NULL COMMENT '空间id',
+`subject_id` int(11) NOT NULL COMMENT '主题id',
+`user_id` int(11) NOT NULL COMMENT '用户表id',
+`content` mediumtext NOT NULL COMMENT '评论内容',
+`deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除 0未删除  1已删除',
+`create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`),
+ KEY space_subject_key(`space_id`, `subject_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '主题评论表';
+
+create table subject_praise(
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`space_id` int(11) NOT NULL COMMENT '空间id',
+`subject_id` int(11) NOT NULL COMMENT '主题id',
+`user_id` int(11) NOT NULL COMMENT '用户表id',
+`deleted` TINYINT NOT NULL DEFAULT 0 COMMENT '是否删除 0未删除  1已删除',
+`create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+`update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`id`),
+ KEY space_user_key(`space_id`, `subject_id`)
+)ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COMMENT '主题点赞表';

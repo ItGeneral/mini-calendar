@@ -14,6 +14,10 @@ public class CalendarDiaryRequest {
 
     private String openId;
 
+    private Integer userId;
+
+    private Integer spaceId;
+
     public String getSolarDate() {
         return solarDate;
     }
@@ -44,5 +48,21 @@ public class CalendarDiaryRequest {
 
     public void setOpenId(String openId) {
         this.openId = openId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getSpaceId() {
+        return spaceId;
+    }
+
+    public void setSpaceId(Integer spaceId) {
+        this.spaceId = spaceId;
     }
 }

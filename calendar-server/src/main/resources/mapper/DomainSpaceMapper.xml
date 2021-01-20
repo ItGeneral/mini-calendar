@@ -24,4 +24,9 @@
         where user_id = #{userId}
     </select>
 
+    <select id="querySubjectListById" resultType="com.mini.calendar.dao.model.DomainSubjectDTO">
+        select user_id, domain_space_id
+        from space_diary_relate
+    </select>
+
 </mapper>

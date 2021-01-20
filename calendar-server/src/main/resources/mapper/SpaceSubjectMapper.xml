@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.calendar.dao.mapper.SpaceSubjectMapper">
+
+    <insert id="saveSpaceSubject" parameterType="com.mini.calendar.dao.model.SpaceSubject" useGeneratedKeys="true" keyProperty="id">
+        insert into space_subject (user_id, space_id, title, content, deleted) values
+        (#{subject.userId}, #{subject.spaceId}, #{subject.title}, #{subject.content}, 0)
+    </insert>
+
+    <select id="queryBySpaceId" resultType="com.mini.calendar.dao.model.SpaceSubject">
+        select id, user_id, space_id, content, update_time
+        from space_subject
+        where space_id = #{spaceId} and deleted = 0
+        limit #{offset}, #{limit}
+    </select>
+
+
+</mapper>

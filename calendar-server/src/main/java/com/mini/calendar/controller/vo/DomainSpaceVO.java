@@ -6,6 +6,8 @@ package com.mini.calendar.controller.vo;
  */
 public class DomainSpaceVO {
 
+    private Integer id;
+
     private String spaceName;
 
     private String avatarUrl;
@@ -15,6 +17,14 @@ public class DomainSpaceVO {
      * 空间创建人
      */
     private String author;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getSpaceName() {
         return spaceName;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.calendar.dao.mapper.SubjectPraiseMapper">
+
+    <insert id="saveSubjectPraise" parameterType="com.mini.calendar.dao.model.SubjectPraise" useGeneratedKeys="true" keyProperty="id">
+        insert into subject_praise (space_id, subject_id, user_id, deleted) values
+        (#{praise.spaceId}, #{praise.subjectId}, #{praise.userId}, 0)
+    </insert>
+
+    <select id="queryBySpaceIdAndSubjectIdList" resultType="com.mini.calendar.dao.model.SubjectPraise">
+        select space_id, subject_id, user_id
+        from subject_praise
+        where space_id = #{spaceId} and deleted = 0 and subject_id in
+        <foreach collection="subjectIdList" item="subjectId" open="(" separator="," close=")">
+            #{subjectId}
+        </foreach>
+    </select>
+
+
+</mapper>

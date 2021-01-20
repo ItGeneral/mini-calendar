@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.calendar.dao.mapper.SpaceDiaryRelateMapper">
+
+    <insert id="saveSpaceUserRelate" parameterType="com.mini.calendar.dao.model.SpaceDiaryRelate">
+        insert into space_diary_relate (user_id,domain_space_id,diary_id, deleted) values
+        (#{relate.userId}, #{relate.domainSpaceId}, #{relate.diaryId}, 0)
+    </insert>
+
+    <select id="queryBySpaceId" resultType="com.mini.calendar.dao.model.SpaceDiaryRelate">
+        select user_id, domain_space_id, diary_id
+        from space_diary_relate
+        where domain_space_id = #{spaceId} and deleted = 0
+    </select>
+
+    <select id="queryUserListBySpaceId" resultType="java.lang.Integer">
+        select distinct user_id from space_diary_relate
+        where domain_space_id = #{spaceId} and deleted = 0
+    </select>
+
+</mapper>

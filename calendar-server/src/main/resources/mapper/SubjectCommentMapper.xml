@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mini.calendar.dao.mapper.SubjectCommentMapper">
+
+    <insert id="saveSubjectComment" parameterType="com.mini.calendar.dao.model.SubjectComment" useGeneratedKeys="true" keyProperty="id">
+        insert into subject_comment (space_id, subject_id, user_id, content, deleted) values
+        (#{comment.spaceId}, #{comment.subjectId}, #{comment.userId}, #{comment.content}, 0)
+    </insert>
+
+    <select id="queryBySpaceIdAndSubjectIdList" resultType="com.mini.calendar.dao.model.SubjectComment">
+        select space_id, subject_id, user_id, content
+        from subject_comment
+        where space_id = #{spaceId} and deleted = 0 and subject_id in
+        <foreach collection="subjectIdList" item="subjectId" open="(" separator="," close=")">
+            #{subjectId}
+        </foreach>
+    </select>
+
+
+</mapper>

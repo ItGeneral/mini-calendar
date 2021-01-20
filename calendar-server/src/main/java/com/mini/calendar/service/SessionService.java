@@ -1,5 +1,6 @@
 package com.mini.calendar.service;
 
+import com.mini.calendar.controller.request.UserInfoRequest;
 import com.mini.calendar.dao.mapper.CalendarUserMapper;
 import com.mini.calendar.dao.model.CalendarUser;
 import com.mini.calendar.wx.CodeToSessionHandler;
@@ -7,6 +8,7 @@ import com.mini.calendar.wx.model.AuthSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * @author songjiuhua
@@ -36,6 +38,22 @@ public class SessionService {
             session.setUserId(checkUser.getId());
         }
         return session;
+    }
+
+    public void saveUser(UserInfoRequest request){
+        CalendarUser existUser = userMapper.queryByOpenIdOrId(request.getUserId(), "");
+        if (existUser != null && !StringUtils.isEmpty(existUser.getNickName())){
+            return;
+        }
+        CalendarUser calendarUser = new CalendarUser();
+        calendarUser.setId(request.getUserId());
+        calendarUser.setNickName(request.getNickName());
+        calendarUser.setGender(request.getGender());
+        calendarUser.setCountry(request.getCountry());
+        calendarUser.setProvince(request.getProvince());
+        calendarUser.setCity(request.getCity());
+        calendarUser.setAvatarUrl(request.getAvatarUrl());
+        userMapper.updateUser(calendarUser);
     }
 
 }

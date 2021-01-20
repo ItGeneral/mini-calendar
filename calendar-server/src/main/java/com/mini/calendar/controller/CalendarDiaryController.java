@@ -1,6 +1,5 @@
 package com.mini.calendar.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.mini.calendar.controller.request.CalendarDiaryListRequest;
 import com.mini.calendar.controller.request.CalendarDiaryQueryRequest;
 import com.mini.calendar.controller.request.CalendarDiaryRequest;

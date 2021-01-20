@@ -7,18 +7,18 @@ import com.mini.calendar.controller.request.DomainSpaceSaveRequest;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
 import com.mini.calendar.dao.mapper.CalendarUserMapper;
 import com.mini.calendar.dao.mapper.DomainSpaceMapper;
+import com.mini.calendar.dao.mapper.SpaceSubjectMapper;
 import com.mini.calendar.dao.mapper.SpaceUserRelateMapper;
 import com.mini.calendar.dao.model.DomainSpace;
 import com.mini.calendar.dao.model.DomainSpaceUserDTO;
 import com.mini.calendar.dao.model.SpaceUserRelate;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +39,8 @@ public class DomainService {
     protected DomainSpaceMapper domainSpaceMapper;
     @Autowired
     protected SpaceUserRelateMapper spaceUserRelateMapper;
+    @Autowired
+    protected SpaceSubjectMapper spaceSubjectMapper;
     @Autowired
     protected CalendarUserMapper calendarUserMapper;
 
@@ -70,6 +72,7 @@ public class DomainService {
         List<DomainSpaceUserDTO> domainSpaceList = domainSpaceMapper.queryByIdList(new ArrayList<>(spaceIdTypeMap.keySet()));
         for (DomainSpaceUserDTO spaceUserDTO : domainSpaceList) {
             DomainSpaceVO spaceVO = new DomainSpaceVO();
+            spaceVO.setId(spaceUserDTO.getSpaceId());
             spaceVO.setSpaceName(spaceUserDTO.getSpaceName());
             spaceVO.setAvatarUrl(fastDfsUrl + spaceUserDTO.getAvatarUrl());
             spaceVO.setAuthor(spaceUserDTO.getNickName());

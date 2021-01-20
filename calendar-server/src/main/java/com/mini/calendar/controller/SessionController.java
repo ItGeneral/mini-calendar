@@ -1,6 +1,7 @@
 package com.mini.calendar.controller;
 
 import com.mini.calendar.controller.request.SessionRequest;
+import com.mini.calendar.controller.request.UserInfoRequest;
 import com.mini.calendar.controller.response.BaseResponse;
 import com.mini.calendar.service.SessionService;
 import com.mini.calendar.wx.model.AuthSession;
@@ -27,5 +28,9 @@ public class SessionController {
         return BaseResponse.success(session);
     }
 
+    @PostMapping(value = "/user")
+    public void saveUser(@RequestBody UserInfoRequest request){
+        sessionService.saveUser(request);
+    }
 
 }
