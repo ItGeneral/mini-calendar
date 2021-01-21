@@ -4,7 +4,9 @@ import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.mini.calendar.client.FastDFSClient;
 import com.mini.calendar.controller.request.DomainSpaceQueryRequest;
 import com.mini.calendar.controller.request.DomainSpaceSaveRequest;
+import com.mini.calendar.controller.request.SpaceDetailListRequest;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
+import com.mini.calendar.controller.vo.SpaceMemberVO;
 import com.mini.calendar.dao.mapper.CalendarUserMapper;
 import com.mini.calendar.dao.mapper.DomainSpaceMapper;
 import com.mini.calendar.dao.mapper.SpaceSubjectMapper;
@@ -12,6 +14,9 @@ import com.mini.calendar.dao.mapper.SpaceUserRelateMapper;
 import com.mini.calendar.dao.model.DomainSpace;
 import com.mini.calendar.dao.model.DomainSpaceUserDTO;
 import com.mini.calendar.dao.model.SpaceUserRelate;
+import com.mini.calendar.dao.model.SpaceUserRelateDTO;
+import com.mini.calendar.util.DateUtil;
+import com.sun.org.apache.regexp.internal.RE;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,6 +85,24 @@ public class DomainService {
             spaceVOList.add(spaceVO);
         }
         return spaceVOList;
+    }
+
+    public List<SpaceMemberVO> queryMemberList(SpaceDetailListRequest request){
+        List<SpaceMemberVO> memberVOList = new ArrayList<>();
+        Integer offset = request.getPageNo() * request.getPageSize();
+        List<SpaceUserRelateDTO> relateDTOList = spaceUserRelateMapper.queryBySpaceId(request.getSpaceId(), offset, 50);
+        if(CollectionUtils.isNotEmpty(relateDTOList)){
+            for (SpaceUserRelateDTO relateDTO : relateDTOList) {
+                SpaceMemberVO memberVO = new SpaceMemberVO();
+                memberVO.setUserId(relateDTO.getUserId());
+                memberVO.setSpaceId(relateDTO.getSpaceId());
+                memberVO.setNickName(relateDTO.getNickName());
+                memberVO.setAvatarUrl(relateDTO.getAvatarUrl());
+                memberVO.setAddSpaceTime(DateUtil.formatDate(relateDTO.getCreateTime(), DateUtil.TIMESTAMP_CHILD_PATTERN));
+                memberVOList.add(memberVO);
+            }
+        }
+        return memberVOList;
     }
 
 }

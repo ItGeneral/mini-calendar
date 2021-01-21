@@ -13,4 +13,13 @@
         where user_id = #{userId}
     </select>
 
+    <select id="queryBySpaceId" resultType="com.mini.calendar.dao.model.SpaceUserRelateDTO">
+        select user_id, domain_space_id as spaceId, us.nick_name, us.avatar_url, relate.create_time
+        from space_user_relate relate
+        inner join calendar_user us on us.id = relate.user_id
+        where domain_space_id = #{spaceId}
+        order by relate.create_time asc
+        limit #{offset}, #{limit}
+    </select>
+
 </mapper>

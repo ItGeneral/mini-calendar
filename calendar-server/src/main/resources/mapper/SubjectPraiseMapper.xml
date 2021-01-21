@@ -8,7 +8,7 @@
     </insert>
 
     <select id="queryBySpaceIdAndSubjectIdList" resultType="com.mini.calendar.dao.model.SubjectPraise">
-        select space_id, subject_id, user_id
+        select id, space_id, subject_id, user_id
         from subject_praise
         where space_id = #{spaceId} and deleted = 0 and subject_id in
         <foreach collection="subjectIdList" item="subjectId" open="(" separator="," close=")">
@@ -16,5 +16,21 @@
         </foreach>
     </select>
 
+    <select id="queryUniquePraise" resultType="com.mini.calendar.dao.model.SubjectPraise">
+        select id, deleted  from subject_praise
+        where space_id = #{spaceId} and subject_id = #{subjectId} and user_id = #{userId}
+    </select>
+
+    <select id="querySubjectPraiseList" resultType="com.mini.calendar.dao.model.SubjectPraiseDTO">
+        select praise.id, praise.space_id, praise.subject_id, praise.user_id, us.nick_name
+        from subject_praise praise
+        inner join calendar_user us on us.id = praise.user_id
+        where praise.space_id = #{spaceId} and praise.subject_id = #{subjectId} and praise.deleted = 0
+        order by praise.id desc
+    </select>
+
+    <update id="updatePraise">
+        update subject_praise set deleted = #{deleted} where id = #{id}
+    </update>
 
 </mapper>

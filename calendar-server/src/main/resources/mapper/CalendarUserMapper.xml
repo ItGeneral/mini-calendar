@@ -48,7 +48,7 @@
         select id, open_id,nick_name,gender,country,province,city,avatar_url
         from calendar_user
         where id in
-        <foreach collection="userIdList" item="id" open="(" separator="," close=")">
+        <foreach collection="userIdSet" item="id" open="(" separator="," close=")">
             #{id}
         </foreach>
     </select>

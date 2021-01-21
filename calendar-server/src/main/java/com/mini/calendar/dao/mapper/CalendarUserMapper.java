@@ -6,6 +6,7 @@ import com.mini.db.annotation.RecDBWritable;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author songjiuhua
@@ -21,6 +22,6 @@ public interface CalendarUserMapper {
 
     CalendarUser queryByOpenIdOrId(@Param("id") Integer id, @Param("openId") String openId);
 
-    List<CalendarUser> queryByUserIdList(@Param("userIdList") List<Integer> userIdList);
+    List<CalendarUser> queryByUserIdList(@Param("userIdSet") Set<Integer> userIdSet);
 
 }

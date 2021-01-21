@@ -8,6 +8,7 @@ import com.mini.calendar.controller.response.BaseResponse;
 import com.mini.calendar.client.FastDFSClient;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
 import com.mini.calendar.controller.vo.DomainSubjectVO;
+import com.mini.calendar.controller.vo.SpaceMemberVO;
 import com.mini.calendar.service.DomainService;
 import com.mini.calendar.wx.model.AuthSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,17 +33,44 @@ public class DomainController {
     @Autowired
     private DomainService domainService;
 
-    @PostMapping(value = "/upload")
-    public BaseResponse<String> uploadFile(@RequestParam(value="file",required=false) MultipartFile file, DomainSpaceSaveRequest saveRequest){
+    /**
+     * 创建空间
+     * @param file
+     * @param saveRequest
+     * @return
+     */
+    @PostMapping(value = "/save")
+    public BaseResponse<String> saveSpace(@RequestParam(value="file",required=false) MultipartFile file, DomainSpaceSaveRequest saveRequest){
         domainService.saveDomainSpace(file, saveRequest);
         return BaseResponse.success("success");
     }
 
+    /**
+     * 获取与我相关的空间
+     * @param queryRequest
+     * @return
+     */
     @PostMapping(value = "/list")
     public BaseResponse<List<DomainSpaceVO>> getSpaceList(@RequestBody DomainSpaceQueryRequest queryRequest){
         List<DomainSpaceVO> spaceVOList = domainService.queryMyRelateSpace(queryRequest);
         return BaseResponse.success(spaceVOList);
     }
 
+
+    /**
+     * 获取某个空间的成员信息
+     * @param request
+     * @return
+     */
+    @PostMapping(value = "/members")
+    public BaseResponse<List<SpaceMemberVO>> memberList(@RequestBody SpaceDetailListRequest request){
+        if (request.getPageNo() == null || request.getPageNo() == 0){
+            request.setPageNo(0);
+        }else {
+            request.setPageNo(request.getPageNo() - 1);
+        }
+        List<SpaceMemberVO> memberVOList = domainService.queryMemberList(request);
+        return BaseResponse.success(memberVOList);
+    }
 
 }
