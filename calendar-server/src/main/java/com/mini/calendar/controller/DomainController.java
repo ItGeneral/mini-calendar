@@ -2,17 +2,13 @@ package com.mini.calendar.controller;
 
 import com.mini.calendar.controller.request.DomainSpaceQueryRequest;
 import com.mini.calendar.controller.request.DomainSpaceSaveRequest;
-import com.mini.calendar.controller.request.SessionRequest;
 import com.mini.calendar.controller.request.SpaceDetailListRequest;
+import com.mini.calendar.controller.request.SpaceJoinRequest;
 import com.mini.calendar.controller.response.BaseResponse;
-import com.mini.calendar.client.FastDFSClient;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
-import com.mini.calendar.controller.vo.DomainSubjectVO;
 import com.mini.calendar.controller.vo.SpaceMemberVO;
 import com.mini.calendar.service.DomainService;
-import com.mini.calendar.wx.model.AuthSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +67,12 @@ public class DomainController {
         }
         List<SpaceMemberVO> memberVOList = domainService.queryMemberList(request);
         return BaseResponse.success(memberVOList);
+    }
+
+    @PostMapping(value = "/join")
+    public BaseResponse<SpaceMemberVO> joinDomainSpace(@RequestBody SpaceJoinRequest request){
+        SpaceMemberVO memberVO = domainService.joinSpace(request);
+        return BaseResponse.success(memberVO);
     }
 
 }

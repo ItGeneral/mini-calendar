@@ -21,4 +21,6 @@ public interface SpaceUserRelateMapper {
     List<SpaceUserRelate> queryByUserId(@Param("userId") Integer userId);
 
     List<SpaceUserRelateDTO> queryBySpaceId(@Param("spaceId") Integer spaceId, @Param("offset") Integer offset, @Param("limit") Integer limit);
+
+    SpaceUserRelate queryByUserIdAndSpaceId(@Param("userId") Integer userId, @Param("spaceId") Integer spaceId);
 }

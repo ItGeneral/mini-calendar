@@ -5,12 +5,14 @@ import com.mini.calendar.client.FastDFSClient;
 import com.mini.calendar.controller.request.DomainSpaceQueryRequest;
 import com.mini.calendar.controller.request.DomainSpaceSaveRequest;
 import com.mini.calendar.controller.request.SpaceDetailListRequest;
+import com.mini.calendar.controller.request.SpaceJoinRequest;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
 import com.mini.calendar.controller.vo.SpaceMemberVO;
 import com.mini.calendar.dao.mapper.CalendarUserMapper;
 import com.mini.calendar.dao.mapper.DomainSpaceMapper;
 import com.mini.calendar.dao.mapper.SpaceSubjectMapper;
 import com.mini.calendar.dao.mapper.SpaceUserRelateMapper;
+import com.mini.calendar.dao.model.CalendarUser;
 import com.mini.calendar.dao.model.DomainSpace;
 import com.mini.calendar.dao.model.DomainSpaceUserDTO;
 import com.mini.calendar.dao.model.SpaceUserRelate;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +52,11 @@ public class DomainService {
     @Autowired
     protected CalendarUserMapper calendarUserMapper;
 
+    /**
+     * 保存空间数据
+     * @param file
+     * @param saveRequest
+     */
     public void saveDomainSpace(MultipartFile file, DomainSpaceSaveRequest saveRequest){
         StorePath storePath = fastDFSClient.upload(file);
         DomainSpace domainSpace = new DomainSpace();
@@ -64,6 +72,11 @@ public class DomainService {
         spaceUserRelateMapper.saveSpaceUserRelate(spaceUserRelate);
     }
 
+    /**
+     * 查询与我相关的空间列表
+     * @param queryRequest
+     * @return
+     */
     public List<DomainSpaceVO> queryMyRelateSpace(DomainSpaceQueryRequest queryRequest){
         List<DomainSpaceVO> spaceVOList = new ArrayList<>();
         List<SpaceUserRelate> relateList = spaceUserRelateMapper.queryByUserId(queryRequest.getUserId());
@@ -87,6 +100,11 @@ public class DomainService {
         return spaceVOList;
     }
 
+    /**
+     * 查询成员列表
+     * @param request
+     * @return
+     */
     public List<SpaceMemberVO> queryMemberList(SpaceDetailListRequest request){
         List<SpaceMemberVO> memberVOList = new ArrayList<>();
         Integer offset = request.getPageNo() * request.getPageSize();
@@ -103,6 +121,34 @@ public class DomainService {
             }
         }
         return memberVOList;
+    }
+
+    /**
+     * 加入空间
+     * @param request
+     */
+    public SpaceMemberVO joinSpace(SpaceJoinRequest request){
+        SpaceMemberVO memberVO = new SpaceMemberVO();
+        SpaceUserRelate existRelate = spaceUserRelateMapper.queryByUserIdAndSpaceId(request.getUserId(), request.getSpaceId());
+        if (existRelate != null && existRelate.getUserId() != null){
+            return memberVO;
+        }
+
+        SpaceUserRelate spaceUserRelate = new SpaceUserRelate();
+        spaceUserRelate.setUserId(request.getUserId());
+        spaceUserRelate.setDomainSpaceId(request.getSpaceId());
+        spaceUserRelate.setType(1);
+        spaceUserRelateMapper.saveSpaceUserRelate(spaceUserRelate);
+
+        CalendarUser calendarUser = calendarUserMapper.queryByOpenIdOrId(request.getUserId(), null);
+
+
+        memberVO.setUserId(request.getUserId());
+        memberVO.setSpaceId(request.getSpaceId());
+        memberVO.setNickName(calendarUser.getNickName());
+        memberVO.setAvatarUrl(calendarUser.getAvatarUrl());
+        memberVO.setAddSpaceTime(DateUtil.formatDate(new Date(), DateUtil.TIMESTAMP_CHILD_PATTERN));
+        return memberVO;
     }
 
 }

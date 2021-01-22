@@ -22,4 +22,9 @@
         limit #{offset}, #{limit}
     </select>
 
+    <select id="queryByUserIdAndSpaceId" resultType="com.mini.calendar.dao.model.SpaceUserRelate">
+        select user_id,domain_space_id,type from space_user_relate
+        where user_id = #{userId} AND domain_space_id = #{spaceId}
+    </select>
+
 </mapper>
