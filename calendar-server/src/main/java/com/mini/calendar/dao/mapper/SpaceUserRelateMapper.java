@@ -23,4 +23,8 @@ public interface SpaceUserRelateMapper {
     List<SpaceUserRelateDTO> queryBySpaceId(@Param("spaceId") Integer spaceId, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
     SpaceUserRelate queryByUserIdAndSpaceId(@Param("userId") Integer userId, @Param("spaceId") Integer spaceId);
+
+    void deleteUserId(@Param("userId") Integer userId, @Param("spaceId") Integer spaceId);
+
+    void deleteBySpaceId(@Param("spaceId") Integer spaceId);
 }

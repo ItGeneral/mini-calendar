@@ -1,19 +1,18 @@
 package com.mini.calendar.client;
 
-import com.alibaba.fastjson.JSON;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.domain.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.domain.upload.FastFile;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bouncycastle.asn1.cms.MetaData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 
@@ -30,22 +29,21 @@ public class FastDFSClient {
     private FastFileStorageClient fastFileStorageClient;
 
     /**
-     * 上传
+     * 上传文件
      * @param file
      * @return
      * @throws IOException
      */
     public StorePath upload(MultipartFile file) {
-        // 上传
         StorePath storePath = null;
         try {
-            FastFile fastFile = new FastFile.Builder().toGroup("group1").withFile(file.getInputStream(), file.getSize(),
-                    FilenameUtils.getExtension(file.getOriginalFilename())).build();
+            FastFile fastFile = new FastFile.Builder()
+                    .toGroup("group1")
+                    .withFile(file.getInputStream(), file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename())).build();
             storePath = fastFileStorageClient.uploadFile(fastFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(JSON.toJSONString(storePath));
         return storePath;
     }
 
@@ -68,7 +66,7 @@ public class FastDFSClient {
 
     /**
      * 文件下载
-     * @param path 文件路径，例如：/group1/path=M00/00/00/itstyle.png
+     * @param path 文件路径，例如：/group1/path=M00/00/00/1.txt
      * @param filename 下载的文件命名
      * @return
      */

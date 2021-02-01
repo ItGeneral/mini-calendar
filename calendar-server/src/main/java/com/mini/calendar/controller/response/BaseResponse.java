@@ -24,6 +24,10 @@ public class BaseResponse<T> {
         this.message = message;
     }
 
+    public static <T> BaseResponse<T> success(){
+        return new BaseResponse<T>("200", "success");
+    }
+
     public static <T> BaseResponse<T> success(T data){
         return new BaseResponse<T>("200", "success", data);
     }

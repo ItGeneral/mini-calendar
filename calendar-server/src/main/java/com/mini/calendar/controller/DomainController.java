@@ -3,7 +3,7 @@ package com.mini.calendar.controller;
 import com.mini.calendar.controller.request.DomainSpaceQueryRequest;
 import com.mini.calendar.controller.request.DomainSpaceSaveRequest;
 import com.mini.calendar.controller.request.SpaceDetailListRequest;
-import com.mini.calendar.controller.request.SpaceJoinRequest;
+import com.mini.calendar.controller.request.SpaceBaseRequest;
 import com.mini.calendar.controller.response.BaseResponse;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
 import com.mini.calendar.controller.vo.SpaceMemberVO;
@@ -70,9 +70,30 @@ public class DomainController {
     }
 
     @PostMapping(value = "/join")
-    public BaseResponse<SpaceMemberVO> joinDomainSpace(@RequestBody SpaceJoinRequest request){
+    public BaseResponse<SpaceMemberVO> joinDomainSpace(@RequestBody SpaceBaseRequest request){
         SpaceMemberVO memberVO = domainService.joinSpace(request);
         return BaseResponse.success(memberVO);
     }
+
+    /**
+     * 退出空间
+     * @return
+     */
+    @PostMapping(value = "/quit")
+    public BaseResponse quitSpace(@RequestBody SpaceBaseRequest request){
+        domainService.quitSpace(request);
+        return BaseResponse.success();
+    }
+
+    /**
+     * 解散空间
+     * @return
+     */
+    @PostMapping(value = "/dismiss")
+    public BaseResponse dismissSpace(@RequestBody SpaceBaseRequest request){
+        domainService.dismissSpace(request);
+        return BaseResponse.success();
+    }
+
 
 }

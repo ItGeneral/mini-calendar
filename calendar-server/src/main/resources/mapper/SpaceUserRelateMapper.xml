@@ -3,28 +3,36 @@
 <mapper namespace="com.mini.calendar.dao.mapper.SpaceUserRelateMapper">
 
     <insert id="saveSpaceUserRelate" parameterType="com.mini.calendar.dao.model.SpaceUserRelate">
-        insert into space_user_relate (user_id,domain_space_id,type) values
-        (#{relate.userId}, #{relate.domainSpaceId}, #{relate.type})
+        insert into space_user_relate (user_id,domain_space_id,type, deleted) values
+        (#{relate.userId}, #{relate.domainSpaceId}, #{relate.type}, 0)
     </insert>
 
     <select id="queryByUserId" resultType="com.mini.calendar.dao.model.SpaceUserRelate">
         select id, user_id, domain_space_id, type
         from space_user_relate
-        where user_id = #{userId}
+        where user_id = #{userId} and deleted = 0
     </select>
 
     <select id="queryBySpaceId" resultType="com.mini.calendar.dao.model.SpaceUserRelateDTO">
         select user_id, domain_space_id as spaceId, us.nick_name, us.avatar_url, relate.create_time
         from space_user_relate relate
         inner join calendar_user us on us.id = relate.user_id
-        where domain_space_id = #{spaceId}
+        where domain_space_id = #{spaceId} and relate.deleted = 0
         order by relate.create_time asc
         limit #{offset}, #{limit}
     </select>
 
     <select id="queryByUserIdAndSpaceId" resultType="com.mini.calendar.dao.model.SpaceUserRelate">
         select user_id,domain_space_id,type from space_user_relate
-        where user_id = #{userId} AND domain_space_id = #{spaceId}
+        where user_id = #{userId} AND domain_space_id = #{spaceId} and relate.deleted = 0
     </select>
+    
+    <update id="deleteUserId">
+        update space_user_relate set deleted = 1 where user_id = #{userId} AND domain_space_id = #{spaceId}
+    </update>
+
+    <update id="deleteBySpaceId">
+        update space_user_relate set deleted = 1 where domain_space_id = #{spaceId}
+    </update>
 
 </mapper>

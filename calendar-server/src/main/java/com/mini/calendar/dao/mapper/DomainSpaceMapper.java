@@ -21,7 +21,6 @@ public interface DomainSpaceMapper {
 
     List<DomainSpaceUserDTO> queryByIdList(@Param("idList") List<Integer> idList);
 
-    List<DomainSpace> queryByUserId(@Param("userId") Integer userId);
+    void deleteSpace(@Param("id") Integer id);
 
-    List<DomainSubjectDTO> querySubjectListById(@Param("id") Integer id);
 }

@@ -5,7 +5,7 @@ import com.mini.calendar.client.FastDFSClient;
 import com.mini.calendar.controller.request.DomainSpaceQueryRequest;
 import com.mini.calendar.controller.request.DomainSpaceSaveRequest;
 import com.mini.calendar.controller.request.SpaceDetailListRequest;
-import com.mini.calendar.controller.request.SpaceJoinRequest;
+import com.mini.calendar.controller.request.SpaceBaseRequest;
 import com.mini.calendar.controller.vo.DomainSpaceVO;
 import com.mini.calendar.controller.vo.SpaceMemberVO;
 import com.mini.calendar.dao.mapper.CalendarUserMapper;
@@ -18,7 +18,6 @@ import com.mini.calendar.dao.model.DomainSpaceUserDTO;
 import com.mini.calendar.dao.model.SpaceUserRelate;
 import com.mini.calendar.dao.model.SpaceUserRelateDTO;
 import com.mini.calendar.util.DateUtil;
-import com.sun.org.apache.regexp.internal.RE;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,6 +90,7 @@ public class DomainService {
         for (DomainSpaceUserDTO spaceUserDTO : domainSpaceList) {
             DomainSpaceVO spaceVO = new DomainSpaceVO();
             spaceVO.setId(spaceUserDTO.getSpaceId());
+            spaceVO.setUserId(spaceUserDTO.getUserId());
             spaceVO.setSpaceName(spaceUserDTO.getSpaceName());
             spaceVO.setAvatarUrl(fastDfsUrl + spaceUserDTO.getAvatarUrl());
             spaceVO.setAuthor(spaceUserDTO.getNickName());
@@ -127,7 +127,7 @@ public class DomainService {
      * 加入空间
      * @param request
      */
-    public SpaceMemberVO joinSpace(SpaceJoinRequest request){
+    public SpaceMemberVO joinSpace(SpaceBaseRequest request){
         SpaceMemberVO memberVO = new SpaceMemberVO();
         SpaceUserRelate existRelate = spaceUserRelateMapper.queryByUserIdAndSpaceId(request.getUserId(), request.getSpaceId());
         if (existRelate != null && existRelate.getUserId() != null){
@@ -149,6 +149,23 @@ public class DomainService {
         memberVO.setAvatarUrl(calendarUser.getAvatarUrl());
         memberVO.setAddSpaceTime(DateUtil.formatDate(new Date(), DateUtil.TIMESTAMP_CHILD_PATTERN));
         return memberVO;
+    }
+
+    /**
+     * 退出空间
+     * @param request
+     */
+    public void quitSpace(SpaceBaseRequest request){
+        spaceUserRelateMapper.deleteUserId(request.getUserId(), request.getSpaceId());
+    }
+
+    /**
+     * 删除空间
+     * @param request
+     */
+    public void dismissSpace(SpaceBaseRequest request){
+        domainSpaceMapper.deleteSpace(request.getSpaceId());
+        spaceUserRelateMapper.deleteBySpaceId(request.getSpaceId());
     }
 
 }

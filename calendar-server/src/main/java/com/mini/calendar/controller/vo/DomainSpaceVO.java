@@ -18,6 +18,8 @@ public class DomainSpaceVO {
      */
     private String author;
 
+    private Integer userId;
+
     public Integer getId() {
         return id;
     }
@@ -56,5 +58,13 @@ public class DomainSpaceVO {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }
